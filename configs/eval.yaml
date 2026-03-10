@@ -1,0 +1,50 @@
+# ============================================================
+# Evaluation-Only Configuration
+# ============================================================
+# Used by evaluate_checkpoint.py and compare_baselines.py.
+# Points to a checkpoint saved by default training run.
+
+seed: 42
+experiment_name: "eval_run"
+
+output_dir: "outputs"
+checkpoint_dir: "outputs/checkpoints"
+log_dir: "outputs/logs"
+figure_dir: "outputs/figures"
+report_dir: "outputs/reports"
+
+env:
+  episode_length: 500
+  dt: 1.0
+  initial_price: 100.0
+  price_volatility: 0.02
+  price_drift: 0.0
+  tick_size: 0.01
+  max_inventory: 10
+  inventory_penalty: 0.01
+  transaction_cost: 0.001
+  adverse_selection_factor: 0.3
+  quote_offsets: [0.01, 0.02, 0.04, 0.06, 0.10]
+
+fill_model:
+  base_fill_rate: 0.5
+  decay_rate: 10.0
+
+agent:
+  hidden_layers: [128, 128]
+  learning_rate: 0.0003
+  gamma: 0.99
+  epsilon_start: 0.0      # No exploration during evaluation
+  epsilon_end: 0.0
+  epsilon_decay_steps: 1
+  replay_buffer_capacity: 1000
+  batch_size: 256
+  target_update_freq: 500
+  double_dqn: true
+  dueling: true
+  gradient_clip: 1.0
+
+evaluation:
+  n_episodes: 100
+  deterministic: true
+  checkpoint_path: "outputs/checkpoints/dqn_best.pt"

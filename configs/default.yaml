@@ -1,0 +1,63 @@
+# ============================================================
+# Default Training Configuration
+# ============================================================
+# All parameters are documented. Adjust for your hardware.
+
+seed: 42
+experiment_name: "dqn_market_maker_default"
+
+# --- Output paths ---
+output_dir: "outputs"
+checkpoint_dir: "outputs/checkpoints"
+log_dir: "outputs/logs"
+figure_dir: "outputs/figures"
+report_dir: "outputs/reports"
+
+# --- Environment ---
+env:
+  episode_length: 500          # Steps per episode
+  dt: 1.0                      # Time step size (abstract units)
+  initial_price: 100.0         # Starting midprice
+  price_volatility: 0.02       # Per-step midprice volatility (sigma)
+  price_drift: 0.0             # Per-step drift (mu); 0 = zero-drift GBM
+  tick_size: 0.01              # Minimum price increment
+  max_inventory: 10            # Hard inventory bound (units)
+  inventory_penalty: 0.01      # Per-unit per-step inventory carry cost
+  transaction_cost: 0.001      # Flat per-fill transaction cost (fraction of price)
+  adverse_selection_factor: 0.3  # Fraction of vol attributed to informed flow
+  # Quote offsets: the agent picks from these discrete spreads (one side)
+  quote_offsets: [0.01, 0.02, 0.04, 0.06, 0.10]
+
+# --- Fill model ---
+fill_model:
+  base_fill_rate: 0.5          # Prob of fill at zero offset (tightest quote)
+  decay_rate: 10.0             # Exponential decay: fill_prob = base * exp(-decay * offset)
+
+# --- DQN Agent ---
+agent:
+  hidden_layers: [128, 128]    # MLP architecture
+  learning_rate: 0.0003
+  gamma: 0.99                  # Discount factor
+  epsilon_start: 1.0
+  epsilon_end: 0.05
+  epsilon_decay_steps: 50000   # Steps to anneal epsilon from start to end
+  replay_buffer_capacity: 100000
+  batch_size: 256
+  target_update_freq: 500      # Steps between target network syncs
+  double_dqn: true             # Use Double DQN variant
+  dueling: true                # Use Dueling network architecture
+  gradient_clip: 1.0           # Max gradient norm for clipping
+
+# --- Training ---
+training:
+  total_steps: 200000          # Total environment steps to train
+  warmup_steps: 2000           # Steps before gradient updates start
+  eval_every_steps: 10000      # Run evaluation every N training steps
+  save_every_steps: 25000      # Save checkpoint every N steps
+  eval_episodes: 30            # Episodes per intermediate eval
+  log_every_steps: 1000
+
+# --- Evaluation ---
+evaluation:
+  n_episodes: 100              # Episodes for final benchmark
+  deterministic: true          # Greedy policy (no exploration)

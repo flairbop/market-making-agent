@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+wheels/
+*.egg-link
+.installed.cfg
+lib/
+lib64/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Outputs (keep directories, ignore generated files)
+outputs/checkpoints/*.pt
+outputs/checkpoints/*.pth
+outputs/logs/*.csv
+outputs/logs/*.json
+outputs/figures/*.png
+outputs/reports/*.txt
+outputs/reports/*.md
+
+# Data - keep sample, ignore large raw data
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/sample/
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy
+.mypy_cache/

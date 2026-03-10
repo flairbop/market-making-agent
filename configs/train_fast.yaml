@@ -1,0 +1,57 @@
+# ============================================================
+# Fast Training Configuration — for smoke-tests and debugging
+# ============================================================
+# Inherits spirit of default.yaml but drastically reduces
+# episode length, total steps, and buffer size for speed.
+
+seed: 0
+experiment_name: "dqn_market_maker_fast"
+
+output_dir: "outputs"
+checkpoint_dir: "outputs/checkpoints"
+log_dir: "outputs/logs"
+figure_dir: "outputs/figures"
+report_dir: "outputs/reports"
+
+env:
+  episode_length: 100
+  dt: 1.0
+  initial_price: 100.0
+  price_volatility: 0.02
+  price_drift: 0.0
+  tick_size: 0.01
+  max_inventory: 10
+  inventory_penalty: 0.01
+  transaction_cost: 0.001
+  adverse_selection_factor: 0.3
+  quote_offsets: [0.01, 0.02, 0.04, 0.06, 0.10]
+
+fill_model:
+  base_fill_rate: 0.5
+  decay_rate: 10.0
+
+agent:
+  hidden_layers: [64, 64]
+  learning_rate: 0.001
+  gamma: 0.99
+  epsilon_start: 1.0
+  epsilon_end: 0.05
+  epsilon_decay_steps: 3000
+  replay_buffer_capacity: 10000
+  batch_size: 64
+  target_update_freq: 200
+  double_dqn: true
+  dueling: true
+  gradient_clip: 1.0
+
+training:
+  total_steps: 5000
+  warmup_steps: 200
+  eval_every_steps: 1000
+  save_every_steps: 2500
+  eval_episodes: 5
+  log_every_steps: 500
+
+evaluation:
+  n_episodes: 10
+  deterministic: true

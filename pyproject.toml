@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "market-making-agent"
+version = "0.1.0"
+description = "RL-based market-making agent in a stylized limit order book environment"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Viraj Chawda" }]
+keywords = ["reinforcement learning", "market making", "quantitative finance", "DQN"]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = [
+    "numpy>=1.26.0",
+    "pandas>=2.1.0",
+    "matplotlib>=3.8.0",
+    "pyyaml>=6.0.1",
+    "tqdm>=4.66.0",
+    "torch>=2.1.0",
+    "scipy>=1.11.0",
+    "gymnasium>=0.29.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4.0", "pytest-cov"]
+
+[project.scripts]
+mma-train = "market_making_agent.training.run_experiment:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
